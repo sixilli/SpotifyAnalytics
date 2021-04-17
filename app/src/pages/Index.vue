@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from '@vue/composition-api';
-import { getUserTopArtists, getUserTopTracks } from "../requests"
+import { getUserTopArtists, getUserTopTracks, loginRequest } from "../requests"
 
 export default defineComponent({
   name: 'PageIndex',

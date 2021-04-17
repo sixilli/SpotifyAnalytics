@@ -8,6 +8,20 @@ const routes: RouteConfig[] = [
       { path: '', component: () => import('pages/Index.vue') }
     ]
   },
+  {
+    path: "/TopTracks",
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/TopTracks.vue') }
+    ]
+  },
+  {
+    path: "/TopArtists",
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/TopArtists.vue') }
+    ]
+  },
 
   // Always leave this as last one,
   // but you can also remove it
