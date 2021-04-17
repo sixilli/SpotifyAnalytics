@@ -1,49 +1,49 @@
 <template>
   <q-page class="row items-center justify-evenly">
-    <example-component
-      title="Example component"
-      active
-      :todos="todos"
-      :meta="meta"
-    ></example-component>
+    <p>Top Artists</p>
+    <ul>
+      <li v-for="artist in topArtists" :key="artist.id">
+        {{ artist.name }}
+      </li>
+    </ul>
+    <p>Top Tracks</p>
+    <ul>
+      <li v-for="track in topTracks" :key="track.id">
+        {{ track.name }}
+      </li>
+    </ul>
   </q-page>
 </template>
 
 <script lang="ts">
-import { Todo, Meta } from 'components/models';
-import ExampleComponent from 'components/CompositionComponent.vue';
-import { defineComponent, ref } from '@vue/composition-api';
+import { defineComponent, ref, onMounted } from '@vue/composition-api';
+import { getUserTopArtists, getUserTopTracks } from "../requests"
 
 export default defineComponent({
   name: 'PageIndex',
-  components: { ExampleComponent },
+  components: { },
   setup() {
-    const todos = ref<Todo[]>([
-      {
-        id: 1,
-        content: 'ct1'
-      },
-      {
-        id: 2,
-        content: 'ct2'
-      },
-      {
-        id: 3,
-        content: 'ct3'
-      },
-      {
-        id: 4,
-        content: 'ct4'
-      },
-      {
-        id: 5,
-        content: 'ct5'
-      }
-    ]);
-    const meta = ref<Meta>({
-      totalCount: 1200
+    const topArtists = ref(null)
+    const topTracks = ref(null)
+
+    onMounted(() => {
+        getUserTopArtists().then((res) => {
+          topArtists.value = res.data.items  
+        })
+        .catch(err => {
+          console.log(err)
+        })
+
+        getUserTopTracks().then((res) => {
+          topTracks.value = res.data.items
+        })
+        .catch(err => {
+          console.log(err)
+        })
     });
-    return { todos, meta };
+
+    return { topArtists, topTracks };
   }
+  
 });
 </script>
