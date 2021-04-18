@@ -1,5 +1,10 @@
 import axios from 'axios'
 import * as keys from '../secret.json'
+import base64url from "base64url";
+import { userStore } from './store/UserStore'
+
+var crypto = require('crypto')
+
 
 // Api keys
 const clientId = keys.clientId
@@ -13,35 +18,50 @@ const url = urlBase + urlVersion
 
 // Scopes for spotify API
 const scopes = 'user-top-read'
-const redirectUri = 'http%3A%2F%2Flocalhost:8080'
+const redirectUri = 'http://localhost:8080'
 
 
 const genericGetRequest = async (reqUrl: string) => {
+    const userToken = userStore.getState().token
+    console.log(userToken)
     return axios.get(reqUrl, {
         headers: {
-            'authorization': `Bearer ${token}`
+            'authorization': `Bearer ${userToken}`
         }
     })
 }
 
 // Returns a code that can be used to obtain an acces token
-export const loginRequest = async (challenge: string) => {
+export const loginRequest = (challenge: string, verifier: string) => {
     const reqClientId= `&client_id=${clientId}`
     const reqScopes = `&scope=${scopes}`
-    const reqCodeChallenge = `&code_challenge=${makeChallenge(50)}`
+    const reqCodeChallenge = `&code_challenge=${verifier}`
     const reqCodeChallengeMethod = `&code_challenge_method=${'S256'}`
     const reqRedirectUri = `&redirect_uri=${redirectUri}`
+    const reqState = `&state=${challenge}`
 
-    const loginUrl = `https://accounts.spotify.com/authorize?response_type=code${reqClientId}${reqScopes}${reqCodeChallenge}${reqCodeChallengeMethod}${reqRedirectUri}` 
+    const loginUrl = `https://accounts.spotify.com/authorize?response_type=code${reqClientId}${reqScopes}${reqCodeChallenge}${reqCodeChallengeMethod}${reqRedirectUri}${reqState}` 
 
-    return axios.get(loginUrl)
+    return loginUrl
 } 
 
-export const requestAccesToken = async (code: string) => {
-    const reqClientId= `&client_id=${clientId}`
-    const reqRedirectUri = `&redirect_uri=${redirectUri}`
-
+export const requestAccesToken = async (authCode: string, sha: string) => {
     const reqUrl = 'https://accounts.spotify.com/api/token'
+
+    const params = new URLSearchParams()
+    params.append('client_id', clientId)
+    params.append('grant_type', 'authorization_code')
+    params.append('code', authCode)
+    params.append('redirect_uri', redirectUri)
+    params.append('code_verifier', sha)
+
+    const config = {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    }
+
+    return axios.post(reqUrl, params, config)
 }
 
 export const getUserTopArtists = async () => {
@@ -62,4 +82,8 @@ export const makeChallenge = (length: number) => {
       result.push(characters.charAt(Math.floor(Math.random() * charactersLength)));
    }
    return result.join('');
+}
+
+export const makeSha = (challenge: string) => {
+    return base64url.fromBase64(crypto.createHash('sha256').update(challenge).digest('base64'))
 }

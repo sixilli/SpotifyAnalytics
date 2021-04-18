@@ -1,48 +1,54 @@
 <template>
   <q-page class="row items-center justify-evenly">
-    <p>Top Artists</p>
-    <ul>
-      <li v-for="artist in topArtists" :key="artist.id">
-        {{ artist.name }}
-      </li>
-    </ul>
-    <p>Top Tracks</p>
-    <ul>
-      <li v-for="track in topTracks" :key="track.id">
-        {{ track.name }}
-      </li>
-    </ul>
+    <div class="q-pa-md q-gutter-sm">
+      <q-btn @click="login" color="secondary" label="Login to Spotify" />
+    </div>
   </q-page>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from '@vue/composition-api';
-import { getUserTopArtists, getUserTopTracks, loginRequest } from "../requests"
+import { defineComponent, onMounted } from '@vue/composition-api';
+import { loginRequest, makeChallenge, makeSha, requestAccesToken } from '../requests'
+import { userStore } from '../store/UserStore' 
+import { router } from '../router/index'
 
 export default defineComponent({
-  name: 'PageIndex',
-  components: { },
+  name: 'Login',
   setup() {
-    const topArtists = ref(null)
-    const topTracks = ref(null)
+    const login = () => {
+      const challenge = makeChallenge(50)
+      const sha = makeSha(challenge)
+      userStore.setChallenge(challenge)
+      const link = loginRequest(challenge, sha)
+      window.location.href = link
+    }
 
     onMounted(() => {
-        getUserTopArtists().then((res) => {
-          topArtists.value = res.data.items  
+      const authCode = router.currentRoute.query.code
+      const state = router.currentRoute.query.state
+
+      if (authCode == undefined) {
+        return
+      }
+
+      if (state != undefined) {
+        userStore.setChallenge(state)
+      }
+
+      if (authCode.length > 1) {
+        const challenge = userStore.getState().challenge
+        requestAccesToken(authCode, challenge).then((res) => {
+          userStore.setToken(res.data.access_token)
+          router.push('TopArtists')
         })
         .catch(err => {
           console.log(err)
         })
 
-        getUserTopTracks().then((res) => {
-          topTracks.value = res.data.items
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    });
+      }
+    })
 
-    return { topArtists, topTracks };
+    return { login }
   }
   
 });
