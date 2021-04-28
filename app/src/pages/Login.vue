@@ -1,7 +1,18 @@
 <template>
-  <q-page class="row items-center justify-evenly">
-    <div class="q-pa-md q-gutter-sm">
-      <q-btn @click="login" color="secondary" label="Login to Spotify" />
+  <q-page class="column justify-start bg-dark">
+    <div class="column items-center">
+      <h2 class="q-pt-xl">Spotify Analytics</h2>
+      <text-body class="q-pb-xl">See your favorite artists and tracks</text-body>
+    </div>
+    <div class="row justify-center">
+      <q-btn 
+        @click="login" 
+        color="secondary" 
+        class="q-px-xl q-py-xs"
+        rounded
+        center
+        label="Login to Spotify" 
+      />
     </div>
   </q-page>
 </template>
@@ -13,7 +24,7 @@ import { userStore } from '../store/UserStore'
 import { router } from '../router/index'
 
 export default defineComponent({
-  name: 'Login',
+  name: 'LoginPage',
   setup() {
     const login = () => {
       const challenge = makeChallenge(50)
@@ -24,8 +35,10 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      const authCode = router.currentRoute.query.code
-      const state = router.currentRoute.query.state
+      const authCode: string = router.currentRoute.query.code
+      const state: string = router.currentRoute.query.state
+
+      console.log('we runnin login')
 
       if (authCode == undefined) {
         return
@@ -39,12 +52,11 @@ export default defineComponent({
         const challenge = userStore.getState().challenge
         requestAccesToken(authCode, challenge).then((res) => {
           userStore.setToken(res.data.access_token)
-          router.push('TopArtists')
+          router.push('/profile/TopArtists')
         })
         .catch(err => {
           console.log(err)
         })
-
       }
     })
 

@@ -3,20 +3,20 @@ import { RouteConfig } from 'vue-router';
 const routes: RouteConfig[] = [
   {
     path: '/',
-    component: () => import('layouts/MainLayout.vue'),
+    component: () => import('layouts/LoginLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Index.vue') }
+      { path: '', component: () => import('pages/Login.vue') }
     ]
   },
   {
-    path: "/TopTracks",
+    path: '/profile/TopTracks',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/TopTracks.vue') }
     ]
   },
   {
-    path: "/TopArtists",
+    path: '/profile/TopArtists',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/TopArtists.vue') }

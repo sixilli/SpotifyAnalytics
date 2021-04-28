@@ -13,7 +13,7 @@ class UserStore extends Store<UserData> {
             token: '',
             challenge: '',
             topArtists: [],
-            topTracks: []
+            topTracks: [],
         };
     }
 
@@ -31,6 +31,14 @@ class UserStore extends Store<UserData> {
 
     setTopTracks(tracks: Object[]) {
         this.state.topTracks = tracks
+    }
+
+    hasToken(): boolean {
+        if (this.state.token.length >= 1) {
+            return true;
+        }
+
+        return false;
     }
 }
 

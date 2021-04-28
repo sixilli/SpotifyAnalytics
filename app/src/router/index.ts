@@ -1,6 +1,8 @@
+import '../services/CompositionApi';
 import { route } from 'quasar/wrappers';
 import VueRouter from 'vue-router';
 import routes from './routes';
+import { userStore } from '../store/UserStore';
 
 /*
  * If not building with SSR mode, you can
@@ -22,6 +24,11 @@ export default route(function ({ Vue }) {
     mode: process.env.VUE_ROUTER_MODE,
     base: process.env.VUE_ROUTER_BASE
   });
+
+  router.beforeEach((to, from, next) => {
+    if (to.path !== '/' && !userStore.hasToken()) next('/')
+    else next()
+  })
 
   return router;
 })
