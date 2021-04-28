@@ -1,5 +1,5 @@
 <template>
-  <q-page class="column justify-start bg-dark">
+  <q-page class="column justify-start login-bg">
     <div class="column items-center">
       <h2 class="q-pt-xl">Spotify Analytics</h2>
       <p class="text-body1 q-pb-xl">See your favorite artists and tracks</p>

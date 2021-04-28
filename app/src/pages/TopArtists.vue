@@ -1,7 +1,7 @@
 <template>
-  <q-page class="">
-    <div class="row justify-center items-center q-px-lg">
-      <div class="col-8">
+  <q-page>
+    <div class="row justify-center items-center text-center">
+      <div class="col">
         <h4>Your Top Artists</h4>
       </div>
       <div class="col">
@@ -15,12 +15,22 @@
         />
       </div>
     </div>
-    <div class="row justify-center">
-      <ul>
-        <li v-for="artist in topArtists" :key="artist.id">
-          {{ artist.name }}
-        </li>
-      </ul>
+    <div class="row q-gutter-md justify-center">
+      <div class="col-2" v-for="(artist, index) in topArtists" :key="artist.id">
+        <q-card class="my-card" square>
+          <q-img 
+            :ratio=1
+            :src=artist.images[0].url
+            basic
+          >
+            <div class="absolute-bottom text-subtitle2 text-center">
+              {{ artist.name }}
+            </div>
+          </q-img>
+        </q-card>
+        <div v-if="index % 5 == 0 && index > 0">
+        </div>
+      </div>
     </div>
   </q-page>
 </template>

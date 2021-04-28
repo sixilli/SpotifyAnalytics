@@ -16,9 +16,14 @@ $primary   : #1976D2;
 $secondary : #1DB954;
 $accent    : #9C27B0;
 
-$dark      : #1D1D1D;
+$dark      : #262626;
 
 $positive  : #21BA45;
 $negative  : #C10015;
 $info      : #31CCEC;
 $warning   : #F2C037;
+
+.login-bg {
+    background: rgb(2,0,36);
+    background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(148,21,148,1) 40%, rgba(0,198,255,1) 100%);
+}
