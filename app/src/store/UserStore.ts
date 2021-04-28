@@ -1,45 +1,45 @@
-import { Store } from "./store";
+import { ref, Ref, computed } from '@vue/composition-api';
 
-interface UserData extends Object {
+interface userStore {
     token: string,
     challenge: string,
-    topArtists: Object[],
-    topTracks: Object[]
+    topArtists: unknown[],
+    topTracks: unknown[],
 }
 
-class UserStore extends Store<UserData> {
-    protected data(): UserData {
-        return {
-            token: '',
-            challenge: '',
-            topArtists: [],
-            topTracks: [],
-        };
-    }
+const state = ref({
+        token: '',
+        challenge: '',
+        topArtists: [],
+        topTracks: [],
+})as unknown as Ref<userStore> 
 
-    setToken(token: string) {
-        this.state.token = token
-    }
-
-    setChallenge(challenge: string) {
-        this.state.challenge = challenge
-    }
-
-    setTopArtists(artists: Object[]) {
-        this.state.topArtists = artists
-    }
-
-    setTopTracks(tracks: Object[]) {
-        this.state.topTracks = tracks
-    }
-
-    hasToken(): boolean {
-        if (this.state.token.length >= 1) {
-            return true;
-        }
-
-        return false;
-    }
+export const setToken= (token: string) => {
+    state.value.token = token
 }
 
-export const userStore: UserStore = new UserStore()
+export const setChallenge = (challenge: string) => {
+    state.value.challenge = challenge
+}
+
+export const setTopArtists = (artists: unknown[]) => {
+    state.value.topArtists = artists
+}
+
+export const setTopTracks = (tracks: unknown[]) => {
+    state.value.topTracks = tracks
+}
+
+export const hasToken = (): boolean => {
+    if (state.value.token.length >= 1) {
+        return true;
+    }
+
+    return false;
+}
+
+export const getChallenge = computed(() => state.value.challenge);
+
+export const getTopArtists = computed(() => state.value.topArtists);
+
+export const userToken = computed(() => state.value.token);

@@ -1,9 +1,9 @@
 import axios from 'axios'
 import * as keys from '../secret.json'
-import base64url from "base64url";
-import { userStore } from './store/UserStore'
+import base64url from 'base64url';
+import { userToken } from './store/UserStore'
 
-var crypto = require('crypto')
+let crypto = require('crypto')
 
 
 // Api keys
@@ -22,11 +22,10 @@ const redirectUri = 'http://localhost:8080'
 
 
 const genericGetRequest = async (reqUrl: string) => {
-    const userToken = userStore.getState().token
-    console.log(userToken)
+    const token = userToken.value
     return axios.get(reqUrl, {
         headers: {
-            'authorization': `Bearer ${userToken}`
+            'authorization': `Bearer ${token}`
         }
     })
 }
@@ -78,7 +77,7 @@ export const makeChallenge = (length: number) => {
     let result = [];
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
+    for (let i = 0; i < length; i++) {
       result.push(characters.charAt(Math.floor(Math.random() * charactersLength)));
    }
    return result.join('');

@@ -6,7 +6,7 @@
       </div>
       <div class="col">
         <q-btn 
-          @click="login" 
+          @click="printTopArists" 
           color="secondary" 
           class="col-4 q-px-xl q-py-xs"
           rounded
@@ -26,26 +26,32 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, reactive } from '@vue/composition-api';
+import { defineComponent, onMounted, ref } from '@vue/composition-api';
 import { getUserTopArtists } from '../requests';
-import { userStore } from '../store/UserStore';
+import { setTopArtists, getTopArtists } from '../store/UserStore';
+import { router } from '../router/index'
 
 
 export default defineComponent({
   name: 'TopArtists',
   setup() {
-    const topArtists = reactive(userStore.getState().topArtists)
+    const topArtists = ref(getTopArtists);
 
     onMounted(() => {
-      if (userStore.getState().topArtists.length > 1) {
+      if (getTopArtists.value.length < 2) {
         getUserTopArtists().then((res) => {
-          userStore.setTopArtists(res.data.items);
-          topArtists = userStore.getState().topArtists
+          setTopArtists(res.data.items);
+        }).catch(() => {
+          router.push('/')
         })
       }
     })
 
-    return { topArtists }
+    const printTopArists = () => {
+      console.log(getTopArtists.value)
+    }
+
+    return { topArtists, printTopArists }
   }
 })
 </script>

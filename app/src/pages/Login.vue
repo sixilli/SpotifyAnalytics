@@ -2,7 +2,7 @@
   <q-page class="column justify-start bg-dark">
     <div class="column items-center">
       <h2 class="q-pt-xl">Spotify Analytics</h2>
-      <text-body class="q-pb-xl">See your favorite artists and tracks</text-body>
+      <p class="text-body1 q-pb-xl">See your favorite artists and tracks</p>
     </div>
     <div class="row justify-center">
       <q-btn 
@@ -20,7 +20,7 @@
 <script lang="ts">
 import { defineComponent, onMounted } from '@vue/composition-api';
 import { loginRequest, makeChallenge, makeSha, requestAccesToken } from '../requests'
-import { userStore } from '../store/UserStore' 
+import { setChallenge, setToken, getChallenge } from '../store/UserStore' 
 import { router } from '../router/index'
 
 export default defineComponent({
@@ -29,7 +29,7 @@ export default defineComponent({
     const login = () => {
       const challenge = makeChallenge(50)
       const sha = makeSha(challenge)
-      userStore.setChallenge(challenge)
+      setChallenge(challenge)
       const link = loginRequest(challenge, sha)
       window.location.href = link
     }
@@ -38,20 +38,18 @@ export default defineComponent({
       const authCode: string = router.currentRoute.query.code
       const state: string = router.currentRoute.query.state
 
-      console.log('we runnin login')
-
       if (authCode == undefined) {
         return
       }
 
       if (state != undefined) {
-        userStore.setChallenge(state)
+        setChallenge(state)
       }
 
       if (authCode.length > 1) {
-        const challenge = userStore.getState().challenge
+        const challenge = getChallenge.value
         requestAccesToken(authCode, challenge).then((res) => {
-          userStore.setToken(res.data.access_token)
+          setToken(res.data.access_token)
           router.push('/profile/TopArtists')
         })
         .catch(err => {
