@@ -1,14 +1,12 @@
 import axios from 'axios'
-import * as keys from '../secret.json'
 import base64url from 'base64url';
 import { userToken } from './store/UserStore'
 
 let crypto = require('crypto')
 
 
-// Api keys - actually don't need this now
-const clientId = keys.clientId
-const token = keys.token
+// Api keys
+const clientId = '529347fc99644971b2f209af18e4d344' 
 
 // Base URL stuff
 const urlBase = 'https://api.spotify.com/'
@@ -18,7 +16,8 @@ const url = urlBase + urlVersion
 
 // Scopes for spotify API
 const scopes = 'user-top-read'
-const redirectUri = 'http://localhost:8080'
+const redirectUri = 'https://modest-stonebraker-5b3ec3.netlify.app/'
+//const redirectUri = 'http://localhost:8080'
 
 
 const genericGetRequest = async (reqUrl: string) => {
