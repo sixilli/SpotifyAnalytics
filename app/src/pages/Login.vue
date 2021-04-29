@@ -19,46 +19,46 @@
 
 <script lang="ts">
 import { defineComponent, onMounted } from '@vue/composition-api';
-import { loginRequest, makeChallenge, makeSha, requestAccesToken } from '../requests'
-import { setChallenge, setToken, getChallenge } from '../store/UserStore' 
-import { router } from '../router/index'
+import { loginRequest, makeChallenge, makeSha, requestAccesToken } from '../requests';
+import { setChallenge, setToken, getChallenge } from '../store/UserStore' ;
+import { router } from '../router/index';
 
 export default defineComponent({
   name: 'LoginPage',
   setup() {
     const login = () => {
-      const challenge = makeChallenge(50)
-      const sha = makeSha(challenge)
-      setChallenge(challenge)
-      const link = loginRequest(challenge, sha)
-      window.location.href = link
+      const challenge = makeChallenge(50);
+      const sha = makeSha(challenge);
+      setChallenge(challenge);
+      const link = loginRequest(challenge, sha);
+      window.location.href = link;
     }
 
     onMounted(() => {
-      const authCode: string = router.currentRoute.query.code
-      const state: string = router.currentRoute.query.state
+      const authCode: string = router.currentRoute.query.code;
+      const state: string = router.currentRoute.query.state;
 
       if (authCode == undefined) {
-        return
+        return;
       }
 
       if (state != undefined) {
-        setChallenge(state)
+        setChallenge(state);
       }
 
       if (authCode.length > 1) {
         const challenge = getChallenge.value
         requestAccesToken(authCode, challenge).then((res) => {
-          setToken(res.data.access_token)
-          router.push('/profile/TopArtists')
+          setToken(res.data.access_token);
+          router.push('/profile/Top');
         })
         .catch(err => {
-          console.log(err)
+          console.log(err);
         })
       }
-    })
+    });
 
-    return { login }
+    return { login };
   }
   
 });

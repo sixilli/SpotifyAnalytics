@@ -9,14 +9,7 @@ const routes: RouteConfig[] = [
     ]
   },
   {
-    path: '/profile/TopTracks',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/TopTracks.vue') }
-    ]
-  },
-  {
-    path: '/profile/TopArtists',
+    path: '/profile/Top',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/TopArtists.vue') }

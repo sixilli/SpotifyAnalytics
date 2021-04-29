@@ -6,7 +6,7 @@ import { userToken } from './store/UserStore'
 let crypto = require('crypto')
 
 
-// Api keys
+// Api keys - actually don't need this now
 const clientId = keys.clientId
 const token = keys.token
 
@@ -63,6 +63,7 @@ export const requestAccesToken = async (authCode: string, sha: string) => {
     return axios.post(reqUrl, params, config)
 }
 
+// Route builders
 export const getUserTopArtists = async () => {
     const reqUrl = url + 'me/top/artists'
     return genericGetRequest(reqUrl)

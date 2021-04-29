@@ -32,13 +32,33 @@
         </div>
       </div>
     </div>
+    <div class="row justify-center items-center text-center">
+      <div class="col">
+        <h4>Your Top Tracks</h4>
+      </div>
+      <div class="col">
+        <q-btn 
+          @click="printTopTracks" 
+          color="secondary" 
+          class="col-4 q-px-xl q-py-xs"
+          rounded
+          center
+          label="Discover New Tracks" 
+        />
+      </div>
+    </div>
+    <div class="row q-gutter-md justify-center" v-if="topTracks.length > 1">
+      <div class="col-2" v-for="track in topTracks" :key="track.id">
+        <p class="body-text2">{{ track.name }} by {{ createArtistList(track.artists) }} </p>
+      </div>
+    </div>
   </q-page>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from '@vue/composition-api';
-import { getUserTopArtists } from '../requests';
-import { setTopArtists, getTopArtists } from '../store/UserStore';
+import { getUserTopArtists, getUserTopTracks } from '../requests';
+import { setTopArtists, getTopArtists, getTopTracks, setTopTracks } from '../store/UserStore';
 import { router } from '../router/index'
 
 
@@ -46,22 +66,56 @@ export default defineComponent({
   name: 'TopArtists',
   setup() {
     const topArtists = ref(getTopArtists);
+    const topTracks = ref(getTopTracks);
 
+    // Returns a string of artists to display along top track names
+    const createArtistList = (artistArray: any): string => {
+      let trackArtists = ''
+      for (let i = 0; i < artistArray.length; i++) {
+        if (artistArray.length == 1) {
+          trackArtists += artistArray[i].name;
+          return trackArtists;
+        }
+
+        if (i == artistArray.length - 1) {
+          trackArtists += artistArray[i].name;
+          continue;
+        }
+
+        trackArtists += artistArray[i].name + ', ';
+      }
+
+      return trackArtists;
+    }
+
+    // Request top tracks/artists and update state store
     onMounted(() => {
       if (getTopArtists.value.length < 2) {
         getUserTopArtists().then((res) => {
           setTopArtists(res.data.items);
         }).catch(() => {
-          router.push('/')
+          router.push('/');
+        })
+      }
+
+      if (getTopTracks.value.length < 2) {
+        getUserTopTracks().then((res) => {
+          setTopTracks(res.data.items);
+        }).catch(() => {
+          router.push('/');
         })
       }
     })
 
     const printTopArists = () => {
-      console.log(getTopArtists.value)
+      console.log(getTopArtists.value);
     }
 
-    return { topArtists, printTopArists }
+    const printTopTracks = () => {
+      console.log(getTopTracks.value);
+    }
+
+    return { topArtists, topTracks, printTopArists, createArtistList }
   }
 })
 </script>

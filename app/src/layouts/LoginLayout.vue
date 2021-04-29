@@ -17,7 +17,7 @@ export default defineComponent({
     const essentialLinks = ref(false);
 
     
-    return {leftDrawerOpen, essentialLinks}
+    return {leftDrawerOpen, essentialLinks};
   }
 });
 </script>
