@@ -9,7 +9,7 @@ import { hasToken } from '../store/UserStore';
  * directly export the Router instantiation
  */
 
-let router = null
+let router: VueRouter 
 
 export default route(function ({ Vue }) {
   Vue.use(VueRouter);

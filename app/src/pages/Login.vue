@@ -35,8 +35,8 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      const authCode: string = router.currentRoute.query.code;
-      const state: string = router.currentRoute.query.state;
+      const authCode: string  = router.currentRoute.query.code.toString();
+      const state: string  = router.currentRoute.query.state.toString();
 
       if (authCode == undefined) {
         return;
