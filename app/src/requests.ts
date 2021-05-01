@@ -16,8 +16,14 @@ const url = urlBase + urlVersion
 
 // Scopes for spotify API
 const scopes = 'user-top-read'
-const redirectUri = 'https://modest-stonebraker-5b3ec3.netlify.app/'
-//const redirectUri = 'http://localhost:8080'
+
+let redirectUri = ''
+if (process.env.NODE_ENV ==='development') {
+    redirectUri = 'http://localhost:8080'
+} else {
+    redirectUri = 'https://modest-stonebraker-5b3ec3.netlify.app/'
+}
+
 
 
 const genericGetRequest = async (reqUrl: string) => {

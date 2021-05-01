@@ -6,7 +6,6 @@
       </div>
       <div class="col">
         <q-btn 
-          @click="printTopArists" 
           color="secondary" 
           class="col-4 q-px-xl q-py-xs"
           rounded
@@ -38,7 +37,6 @@
       </div>
       <div class="col">
         <q-btn 
-          @click="printTopTracks" 
           color="secondary" 
           class="col-4 q-px-xl q-py-xs"
           rounded
@@ -48,8 +46,19 @@
       </div>
     </div>
     <div class="row q-gutter-md justify-center" v-if="topTracks.length > 1">
-      <div class="col-2" v-for="track in topTracks" :key="track.id">
-        <p class="body-text2">{{ track.name }} by {{ createArtistList(track.artists) }} </p>
+      <div class="col-2" v-for="(track, index) in topTracks" :key="track.id">
+        <q-card class="my-card" square>
+          <q-img 
+            :ratio=1
+            :src=track.album.images[0].url
+            basic
+          >
+            <div class="absolute-bottom text-subtitle2 text-center">
+              {{ track.name }} by {{ createArtistList(track.artists) }}
+            </div>
+          </q-img>
+        </q-card>
+        <div v-if="index % 5 == 0 && index > 0"></div>
       </div>
     </div>
   </q-page>
