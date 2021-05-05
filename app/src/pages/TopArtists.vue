@@ -4,15 +4,6 @@
       <div class="col">
         <h4>Your Top Artists</h4>
       </div>
-      <div class="col">
-        <q-btn 
-          color="secondary" 
-          class="col-4 q-px-xl q-py-xs"
-          rounded
-          center
-          label="Discover New Arists" 
-        />
-      </div>
     </div>
     <div class="row q-gutter-md justify-center">
       <div class="col-2" v-for="(artist, index) in topArtists" :key="artist.id">
@@ -35,17 +26,8 @@
       <div class="col">
         <h4>Your Top Tracks</h4>
       </div>
-      <div class="col">
-        <q-btn 
-          color="secondary" 
-          class="col-4 q-px-xl q-py-xs"
-          rounded
-          center
-          label="Discover New Tracks" 
-        />
-      </div>
     </div>
-    <div class="row q-gutter-md justify-center" v-if="topTracks.length > 1">
+    <div class="row q-gutter-md justify-center q-mb-lg" v-if="topTracks.length > 1">
       <div class="col-2" v-for="(track, index) in topTracks" :key="track.id">
         <q-card class="my-card" square>
           <q-img 
@@ -116,15 +98,7 @@ export default defineComponent({
       }
     })
 
-    const printTopArists = () => {
-      console.log(getTopArtists.value);
-    }
-
-    const printTopTracks = () => {
-      console.log(getTopTracks.value);
-    }
-
-    return { topArtists, topTracks, printTopArists, createArtistList }
+    return { topArtists, topTracks, createArtistList }
   }
 })
 </script>

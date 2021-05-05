@@ -4,8 +4,6 @@ import { userToken } from './store/UserStore'
 
 let crypto = require('crypto')
 
-
-// Api keys
 const clientId = '529347fc99644971b2f209af18e4d344' 
 
 // Base URL stuff

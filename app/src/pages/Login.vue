@@ -2,7 +2,7 @@
   <q-page class="column justify-start login-bg">
     <div class="column items-center">
       <h2 class="q-pt-xl text-center">Spotify Analytics</h2>
-      <p class="text-body1 q-pb-xl">See your recent favorite artists and tracks</p>
+      <p class="text-body1 q-pb-xl">See your recent favorite artists and tracks.</p>
     </div>
     <div class="row justify-center">
       <q-btn 
