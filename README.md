@@ -8,3 +8,5 @@ Simple webapp that allows users to login to Spotify and see their current top ar
 - Quasar CLI/Component Library
 
 Hosted on Netlify
+
+![SpotifyAnalytics preview!](https://i.imgur.com/ATeWPG6.jpg)
