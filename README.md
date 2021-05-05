@@ -1,8 +1,4 @@
-# hackuiowa_project
+# Spotify Analytics
 
 ### Steps to running
-Install quasar CLI tools: npm install -g @quasar/cli
-
-cd ./app
-
-quasar dev
+Simple webapp that allows users to login to Spotify and see their current top artists and tracks.
