@@ -14,13 +14,23 @@
         label="Login to Spotify" 
       />
     </div>
+    <div class="q-py-lg row justify-center">
+      <q-btn 
+        @click="preview" 
+        color="accent" 
+        class="q-px-xl q-py-xs"
+        rounded
+        center
+        label="Preview" 
+      />
+    </div>
   </q-page>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted } from '@vue/composition-api';
 import { loginRequest, makeChallenge, makeSha, requestAccesToken } from '../requests';
-import { setChallenge, setToken, getChallenge } from '../store/UserStore' ;
+import { setChallenge, setToken, getChallenge, setPreview } from '../store/UserStore' ;
 import { router } from '../router/index';
 
 export default defineComponent({
@@ -34,11 +44,18 @@ export default defineComponent({
       window.location.href = link;
     }
 
-    onMounted(() => {
-      const authCode: string  = router.currentRoute.query.code.toString();
-      const state: string  = router.currentRoute.query.state.toString();
+    const preview = () => {
+      setPreview();
+      router.push('/profile/Top');
+    }
 
-      if (authCode == undefined) {
+    onMounted(() => {
+      const routerQuery = router.currentRoute.query;
+
+      const authCode: string  = routerQuery.code ? routerQuery.code.toString() : '';
+      const state: string  = routerQuery.state ? routerQuery.state.toString() : '';
+
+      if (!authCode) {
         return;
       }
 
@@ -58,7 +75,7 @@ export default defineComponent({
       }
     });
 
-    return { login };
+    return { login, preview };
   }
   
 });
