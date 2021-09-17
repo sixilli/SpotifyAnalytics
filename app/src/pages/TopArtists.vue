@@ -7,7 +7,7 @@
     </div>
     <div class="row q-gutter-md justify-center">
       <div class="col-2" v-for="(artist, index) in topArtists" :key="artist.id">
-        <q-card class="my-card" square>
+        <q-card class="my-card" square dark>
           <q-img 
             :ratio=1
             :src=artist.images[0].url
@@ -29,7 +29,7 @@
     </div>
     <div class="row q-gutter-md justify-center q-mb-lg" v-if="topTracks.length > 1">
       <div class="col-2" v-for="(track, index) in topTracks" :key="track.id">
-        <q-card class="my-card" square>
+        <q-card class="my-card" square dark>
           <q-img 
             :ratio=1
             :src=track.album.images[0].url
